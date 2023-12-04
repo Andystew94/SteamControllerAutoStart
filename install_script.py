@@ -1,14 +1,13 @@
 import os
 import shutil
-from subprocess import call, check_output, check_call
+from subprocess import call, check_output, check_call, CalledProcessError
 import importlib
 
 try:
     import psutil
-except:
+except ImportError:
     check_call(['pip', 'install', 'psutil'])
     import psutil
-
 
 def check_and_install_package(package_name):
     try:
@@ -16,10 +15,13 @@ def check_and_install_package(package_name):
         print(
             f"{package_name} is installed. Version: {getattr(module, '__version__', 'N/A')}")
     except ImportError:
-        print(f"{package_name} is not installed. Installing...")
-        install_python_package(package_name)
-        print(f"{package_name} has been installed successfully.")
+        print(f"{package_name} is not installed.")
 
+def install_python_package(module_name):
+    try:
+        check_call(['pip', 'install', module_name])
+    except CalledProcessError as e:
+        print(f"Error installing {module_name}: {e}")
 
 def identify_missing_packages(packages_to_check):
     for package in packages_to_check:

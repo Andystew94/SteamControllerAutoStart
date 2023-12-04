@@ -8,10 +8,12 @@ import os
 
 def is_controller_connected():
     pygame.init()
-    time.sleep(1)
-    joystick_count = pygame.joystick.get_count()
-    pygame.quit()
-    return joystick_count > 0
+    try:
+        time.sleep(1)
+        joystick_count = pygame.joystick.get_count()
+        return joystick_count > 0
+    finally:
+        pygame.quit()
 
 
 def launch_steam_big_picture(steam_path):
