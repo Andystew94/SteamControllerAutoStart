@@ -1,9 +1,25 @@
 import time
 import subprocess
-import pygame
-import psutil
 import sys
 import os
+
+try:
+    import psutil
+except ImportError as e:
+    try:
+        subprocess.check_call(['pip', 'install', 'psutil'])
+        import psutil
+    except Exception as install_error:
+        print(f"Error installing module: {install_error}")
+
+try:
+    import pygame
+except ImportError as e:
+    try:
+        subprocess.check_call(['pip', 'install', 'pygame'])
+        import pygame
+    except Exception as install_error:
+        print(f"Error installing module: {install_error}")
 
 
 def is_controller_connected():

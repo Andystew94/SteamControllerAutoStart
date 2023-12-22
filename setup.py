@@ -1,7 +1,32 @@
 from setuptools import setup, find_packages
 import os
-from PyInstaller import __main__ as pyi
 from shutil import copyfile
+import subprocess
+
+# Required packages for steamcontrollerautostart.py
+try:
+    from PyInstaller import __main__ as pyi
+except ImportError:
+    subprocess.check_call(['pip', 'install', 'PyInstaller'])
+    from PyInstaller import __main__ as pyi
+
+try:
+    import psutil
+except ImportError as e:
+    try:
+        subprocess.check_call(['pip', 'install', 'psutil'])
+        import psutil
+    except Exception as install_error:
+        print(f"Error installing module: {install_error}")
+
+try:
+    import pygame
+except ImportError as e:
+    try:
+        subprocess.check_call(['pip', 'install', 'pygame'])
+        import pygame
+    except Exception as install_error:
+        print(f"Error installing module: {install_error}")
 
 working_directory = os.path.join(os.getcwd())
 
